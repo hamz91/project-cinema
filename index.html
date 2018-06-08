@@ -8,10 +8,15 @@
 <body>
     <h1>Hamzah's Online Movie Search Engine</h1>
     <form id="movie_form" action="">
-        <input type="text" name="movie_input" id="movie_input" cols="30" rows="10" size="50" placeholder="What movie are you looking for?"></input>
-        <button id="movie_submit" class="submit" type="submit">Search</button>
+        <input type="text" name="movie_input" id="movie_input" placeholder="What movie are you looking for?"></input>
+        <button type="reset">reset</button>
+        <button id="movie_submit" class="submit">Search</button>
     </form>
-    <div class="results_placeholder"></div>
+    <div class="results_placeholder">
+        <ul id="show_results">
+
+        </ul>
+    </div>
     <script src="./index.js"></script>
 </body>
 

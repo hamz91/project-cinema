@@ -1,26 +1,44 @@
 const form = document.querySelector("#movie_form");
-const textArea = document.querySelector("#movie_input");
+const movieInput = document.querySelector("#movie_input");
 const button = document.querySelector("#movie_submit");
+const results = document.querySelector("#show_results");
 
-// Form event listener
-form.addEventListener("submit", function(event) {
-  // Prevent default server form submission
-  event.preventDefault();
-
-  // Search input string
-  let movie = textArea.value;
-  console.log(movie);
-
-  // Empty Text Area
-  textArea.value = "";
-
-  //   Fetch request using Text Area string
+function fetching(movie) {
   fetch(`http://www.omdbapi.com/?s=${movie}&apikey=77c3b516`)
     .then(function(response) {
       return response.json();
     })
     .then(function(myJson) {
-      return myJson;
+      display(myJson); // display function called - function iterates over fetch results array & objects
     })
-    .then(function())
+    .catch(function(error) {
+      alert("There was an error with your request. Please try another search.");
+    });
+}
+
+form.addEventListener("reset", function(event) {
+  console.log(event);
 });
+
+// Form event listener
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+  // movieInput.value = "";
+
+  fetching(movieInput.value);
+});
+
+function display(myJson) {
+  myJson.Search.forEach(function(movie) {
+    let resultsHolder = document.createElement("li");
+    for (let key in movie) {
+      if (key === "imdbID") {
+        resultsHolder.innerHTML += `
+        <a href='https://www.imdb.com/title/${movie[key]}'>
+        <img src=${movie.Poster}>
+        ${movie.Title}</a>`;
+      }
+    }
+    results.appendChild(resultsHolder);
+  });
+}
