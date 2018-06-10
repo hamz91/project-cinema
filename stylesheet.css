@@ -1,0 +1,112 @@
+body {
+  margin: 0;
+  background-image: url("./assets/erik-witsoe-647316-unsplash.jpg");
+  background-size: cover;
+}
+
+.header {
+  text-align: center;
+  color: white;
+  background-color: transparent;
+  margin: auto;
+  padding: 20px;
+  font-family: fantasy;
+}
+
+.form {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  order: 3;
+  background-color: transparent;
+}
+
+#movie_input {
+  display: flex;
+  align-items: center;
+  border-color: darkgreen;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
+  font-family: fantasy;
+  background-color: forestgreen;
+  color: white;
+  size: 20px;
+}
+
+#more_button {
+  display: none;
+}
+
+.results_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: stretch;
+  border-color: white;
+}
+
+.result_sections {
+  border-color: whitesmoke;
+}
+
+.title {
+  background-color: transparent;
+  color: white;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.movie_title {
+  display: flex;
+  font-family: fantasy;
+  font-size: 17px;
+  justify-content: center;
+  border-style: solid;
+  border: 10px;
+  border-color: forestgreen;
+}
+
+.movie_year {
+  display: flex;
+  font-family: fantasy;
+  font-size: 15px;
+  justify-content: center;
+}
+
+.poster {
+  display: flex;
+  height: 300px;
+  width: 300px;
+  box-shadow: white;
+}
+/* .plot_container {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.plot_container .plot_popup {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+   Position the popup */
+/* position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+}
+
+.plot_container:hover .plot_popup {
+  visibility: visible;
+} */

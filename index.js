@@ -1,14 +1,19 @@
 const form = document.querySelector("#movie_form");
 const movieInput = document.querySelector("#movie_input");
-const button = document.querySelector("#movie_submit");
 const results = document.querySelector("#show_results");
+const buttonArea = document.querySelectorAll(".results_container");
+const detailedView =
+  "http://www.omdbapi.com/?t=${movie}&plot=small&apikey=77c3b516";
 
-function fetching(movie) {
-  fetch(`http://www.omdbapi.com/?s=${movie}&apikey=77c3b516`)
+// Movie Fetch Request
+function fetchGeneral(movie) {
+  fetch(`http://www.omdbapi.com/?s=${movie}&plot=small&apikey=77c3b516`)
     .then(function(response) {
       return response.json();
     })
     .then(function(myJson) {
+      console.log(myJson);
+
       display(myJson); // display function called - function iterates over fetch results array & objects
     })
     .catch(function(error) {
@@ -16,29 +21,72 @@ function fetching(movie) {
     });
 }
 
-form.addEventListener("reset", function(event) {
-  console.log(event);
-});
+// Container Dispaly Function
+function display(myJson) {
+  let movieResults = myJson.Search.map(function(movie) {
+    return `
+      <div class="result_sections">
+      <ui>
+      <div class="title">
+      <h2 class='movie_title'>${movie.Title}</h2>
+      <p class='movie_year'>${movie.Year}</p>
+      <a class='poster' href="https://www.imdb.com/title/${movie.imdbID}">
+      <img src=${movie.Poster}>
+      </a>
+      <div class='more_info'>
+      <button id="more_info">
+      More Info
+      </button>
+      <button class='amazon_link'>
+      <a class='amazon_link' href="https://www.amazon.co.uk/s/ref=nb_sb_noss_1?url=search-alias%3Ddvd&field-keywords=${
+        movie.Title
+      }">
+      Buy Now</a>
+      </button>
+      </div>
+      </div>
+      </ui>
+      </div>`;
+  }).join(""); // map over fetched Json data, added innerHTML using .notation
+
+  results.innerHTML = movieResults;
+}
+
+function fetchPlot(movie) {
+  fetch(`http://www.omdbapi.com/?t=${movie}&plot=small&apikey=77c3b516`)
+    .then(function(response1) {
+      return response1.json();
+    })
+    .then(function(plotJson) {
+      console.log(plotJson);
+      Object.keys(plotJson)
+        .forEach(function(detail) {
+          return `
+      <div
+      <li class="info_list">
+      <p>${detail.Title}</p>
+      <p>${detail.Director}</p>
+      <p>${detail.Actors}</p>
+      <p>${detail.Released}</p>
+      <p>${detail.Runtime}</p>
+      <p>${detail.Rated}</p>
+      <p>${detail.Production}</p>
+      <p>${detail.Plot}</p>
+      </li>`;
+        })
+        .catch(function(error) {
+          alert("fetchPlot 2 has fucked up again");
+        });
+    });
+}
 
 // Form event listener
 form.addEventListener("submit", function(event) {
   event.preventDefault();
-  // movieInput.value = "";
-
-  fetching(movieInput.value);
+  fetchGeneral(movieInput.value);
 });
 
-function display(myJson) {
-  myJson.Search.forEach(function(movie) {
-    let resultsHolder = document.createElement("li");
-    for (let key in movie) {
-      if (key === "imdbID") {
-        resultsHolder.innerHTML += `
-        <a href='https://www.imdb.com/title/${movie[key]}'>
-        <img src=${movie.Poster}>
-        ${movie.Title}</a>`;
-      }
-    }
-    results.appendChild(resultsHolder);
-  });
-}
+// button.innerHTML = details;
+// buttonArea.addEventListener("click", function(event) {
+//   button.innerHTML = fetchPlot(movieInput.value);
+// });
