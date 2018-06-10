@@ -60,9 +60,6 @@ body {
   display: flex;
   font-size: 17px;
   justify-content: center;
-  border-style: solid;
-  border: 10px;
-  border-color: forestgreen;
 }
 
 .movie_year {
@@ -75,5 +72,11 @@ body {
   display: flex;
   height: 300px;
   width: 300px;
-  box-shadow: white;
+}
+
+#More_Info {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
 }

@@ -1,8 +1,8 @@
 const form = document.querySelector("#movie_form");
 const movieInput = document.querySelector("#movie_input");
 const results = document.querySelector("#show_results");
-const detailedView =
-  "http://www.omdbapi.com/?t=${movie}&plot=small&apikey=77c3b516";
+const plotDetails = document.querySelector("#more_info_container");
+let storedSearch = [];
 
 // Movie Fetch Request
 function fetchGeneral(movie) {
@@ -11,6 +11,7 @@ function fetchGeneral(movie) {
       return response.json();
     })
     .then(function(myJson) {
+      storedSearch.push(movieInput.value);
       display(myJson); // display function called - function iterates over fetch results array & objects
     })
     .catch(function(error) {
@@ -40,6 +41,7 @@ function display(myJson) {
       }">
       Buy Now</a>
       </button>
+      <button id="favourites">Add to Favourites</div>
       </div>
       </div>
       </ui>
@@ -50,32 +52,43 @@ function display(myJson) {
 }
 
 function fetchPlot(movie) {
-  fetch(detailedView)
+  fetch(`http://www.omdbapi.com/?t=${movie}&plot=small&apikey=77c3b516`)
     .then(function(response1) {
       return response1.json();
     })
     .then(function(plotJson) {
       console.log(plotJson);
-      let details = `<div
-    <li class="info_list">
-    <p>${detail.Title}</p>
-    <p>${detail.Director}</p>
-    <p>${detail.Actors}</p>
-    <p>${detail.Released}</p>
-    <p>${detail.Runtime}</p>
-    <p>${detail.Rated}</p>
-    <p>${detail.Production}</p>
-    <p>${detail.Plot}</p>
-    </li>`;
+      let details = Object.values(plotJson).map(function(item) {
+        return `<div>
+      <li class="info_list">
+      <p>Title: ${item.Title}</p>
+      <p>Director: ${item.Director}</p>
+      <p>Actors: ${item.Actors}</p>
+      <p>Date of Release: ${item.Released}</p>
+      <p>Runtime: ${item.Runtime}</p>
+      <p>Rating: ${item.Rated}</p>
+      <p>Producers: ${item.Production}</p>
+      <p>Plot Summary: ${item.Plot}</p>
+      </li>
+      </div>`;
+        plotDetails.innerHTML = details;
+      });
     })
     .catch(function(error) {
       alert("fetchPlot has fucked up again");
     });
 }
+
 // Input Form event listener
 form.addEventListener("submit", function(event) {
   event.preventDefault();
   fetchGeneral(movieInput.value);
+});
+
+results.addEventListener("click", function(event) {
+  if (event.target.id === "More_Info") {
+    fetchPlot(movieInput.value);
+  }
 });
 
 // let info = document.querySelector("#info_bubble");
