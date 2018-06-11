@@ -86,9 +86,10 @@ form.addEventListener("submit", function(event) {
 });
 
 results.addEventListener("click", function(event) {
-  if (event.target.id === "More_Info") {
-    fetchPlot(movieInput.value);
+  if (event.target.id == "More_Info") {
+    fetchPlot(event.target.parentNode);
   }
+  console.log(event.target.parentNode.firstChild);
 });
 
 // let info = document.querySelector("#info_bubble");
